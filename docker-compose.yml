@@ -1,5 +1,3 @@
-version: "3.9"
-
 services:
   nginx:
     image: nginx:${NGINX_VERSION}
@@ -29,6 +27,7 @@ services:
     image: ipfs/kubo:${IPFS_VERSION}
     container_name: ${PROJECT_NAME}-kubo
     restart: unless-stopped
+    user: "1000:1000"
     environment:
       - IPFS_PROFILE=${IPFS_PROFILE}
       - IPFS_SWARM_TCP=${IPFS_SWARM_TCP}
