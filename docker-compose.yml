@@ -22,6 +22,7 @@ services:
     volumes:
       - ./configs/nginx.conf:/etc/nginx/nginx.conf:ro
       - ./configs/ssl:/etc/nginx/ssl
+      - /etc/ssl:/etc/nginx/ssl-host:ro
       - ./configs/auth-ips.conf:/etc/nginx/auth-ips.conf:ro
       - ./configs/.htpasswd:/etc/nginx/.htpasswd:ro
     depends_on:

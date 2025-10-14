@@ -9,6 +9,18 @@ if ! docker info > /dev/null 2>&1; then
     exit 1
 fi
 
+# Detect Docker Compose (v2 plugin or legacy)
+if docker compose version > /dev/null 2>&1; then
+    COMPOSE="docker compose"
+elif command -v docker-compose > /dev/null 2>&1; then
+    COMPOSE="docker-compose"
+else
+    echo "❌ Docker Compose not found. Install it with:"
+    echo "   sudo apt-get update && sudo apt-get install -y docker-compose-plugin"
+    echo "   # then rerun: ./deploy.sh"
+    exit 1
+fi
+
 # Ensure htpasswd exists
 if [ ! -f configs/.htpasswd ]; then
     echo "⚠️  .htpasswd not found. Creating..."
@@ -38,8 +50,8 @@ mkdir -p logs
 
 # Start services
 echo "🔨 Starting IPFS and Nginx..."
-docker-compose down --remove-orphans
-docker-compose up -d
+$COMPOSE down --remove-orphans
+$COMPOSE up -d
 
 # Wait for services to be ready
 echo "⏳ Waiting for services to start..."
@@ -73,5 +85,5 @@ echo ""
 echo "📝 Next steps:"
 echo "  1. Point DNS to this VM: ipfs.peaq.xyz and api-ipfs.peaq.xyz"
 echo "  2. Issue SSL with certbot and update nginx to listen on 443"
-echo "  3. Add your office/home IPs to auth-ips.conf and restart nginx"
+echo "  3. Add your office/home IPs to configs/auth-ips.conf and restart nginx"
 echo "  4. Use curl with -u username:password to call API"
