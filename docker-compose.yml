@@ -31,23 +31,15 @@ services:
     restart: unless-stopped
     environment:
       - IPFS_PROFILE=${IPFS_PROFILE}
-    entrypoint: ["/bin/sh","-lc"]
-    command: >-
-      if [ ! -f /data/ipfs/config ]; then
-        ipfs init --profile=${IPFS_PROFILE} &&
-        ipfs config --json Swarm.DisableNatPortMap true &&
-        ipfs config --json Discovery.MDNS.Enabled false &&
-        ipfs config --json Gateway.NoDNSLink true &&
-        if [ -n "${PUBLIC_IP}" ]; then
-          ipfs config Addresses.Announce "[\"/ip4/${PUBLIC_IP}/tcp/${IPFS_SWARM_TCP}\",\"/ip4/${PUBLIC_IP}/udp/${IPFS_SWARM_TCP}/quic-v1\"]";
-        fi &&
-        ipfs config --json API.HTTPHeaders.Access-Control-Allow-Origin '["https://${IPFS_DOMAIN}"]' &&
-        ipfs config --json API.HTTPHeaders.Access-Control-Allow-Methods '["GET","POST","PUT"]';
-      fi;
-      exec /usr/local/bin/start_ipfs
+      - IPFS_SWARM_TCP=${IPFS_SWARM_TCP}
+      - IPFS_DOMAIN=${IPFS_DOMAIN}
+      - PUBLIC_IP=${PUBLIC_IP}
+    entrypoint: ["/bin/sh","-lc","/docker-entrypoint.sh"]
+    command: ["/usr/local/bin/start_ipfs"]
     volumes:
       - ${IPFS_DATA}:/data/ipfs
       - ${IPFS_DATA}/export:/export
+      - ./scripts/ipfs-entrypoint.sh:/docker-entrypoint.sh:ro
     expose:
       - "${IPFS_GATEWAY_PORT}"
       - "${IPFS_API_PORT}"
