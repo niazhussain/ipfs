@@ -27,14 +27,12 @@ services:
     image: ipfs/kubo:${IPFS_VERSION}
     container_name: ${PROJECT_NAME}-kubo
     restart: unless-stopped
-    user: "1000:1000"
     environment:
       - IPFS_PROFILE=${IPFS_PROFILE}
       - IPFS_SWARM_TCP=${IPFS_SWARM_TCP}
       - IPFS_DOMAIN=${IPFS_DOMAIN}
       - PUBLIC_IP=${PUBLIC_IP}
     entrypoint: ["/bin/sh","-lc","/docker-entrypoint.sh"]
-    command: ["/usr/local/bin/start_ipfs"]
     volumes:
       - ${IPFS_DATA}:/data/ipfs
       - ${IPFS_DATA}/export:/export
