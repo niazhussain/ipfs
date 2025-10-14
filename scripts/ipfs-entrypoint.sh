@@ -1,12 +1,12 @@
 #!/bin/sh
 set -eu
 
-IPFS_REPO="/data/ipfs"
+export IPFS_PATH="/data/ipfs"
 PROFILE="${IPFS_PROFILE:-server}"
 SWARM_TCP_PORT="${IPFS_SWARM_TCP:-4001}"
 DOMAIN_HOST="${IPFS_DOMAIN:-localhost}"
 
-if [ ! -f "${IPFS_REPO}/config" ]; then
+if [ ! -f "${IPFS_PATH}/config" ]; then
   ipfs init --profile="${PROFILE}"
   ipfs config --json Swarm.DisableNatPortMap true
   ipfs config --json Discovery.MDNS.Enabled false
