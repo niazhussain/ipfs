@@ -5,12 +5,15 @@ export IPFS_PATH="/data/ipfs"
 PROFILE="${IPFS_PROFILE:-server}"
 SWARM_TCP_PORT="${IPFS_SWARM_TCP:-4001}"
 DOMAIN_HOST="${IPFS_DOMAIN:-localhost}"
+GATEWAY_PORT="${IPFS_GATEWAY_PORT:-8080}"
 
 if [ ! -f "${IPFS_PATH}/config" ]; then
   ipfs init --profile="${PROFILE}"
   ipfs config --json Swarm.DisableNatPortMap true
   ipfs config --json Discovery.MDNS.Enabled false
   ipfs config --json Gateway.NoDNSLink true
+  # Bind gateway on all interfaces so Nginx can reach it across the Docker network
+  ipfs config Addresses.Gateway "/ip4/0.0.0.0/tcp/${GATEWAY_PORT}"
   if [ -n "${PUBLIC_IP:-}" ]; then
     ipfs config Addresses.Announce "[\"/ip4/${PUBLIC_IP}/tcp/${SWARM_TCP_PORT}\",\"/ip4/${PUBLIC_IP}/udp/${SWARM_TCP_PORT}/quic-v1\"]"
   fi
