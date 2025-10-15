@@ -24,4 +24,5 @@ if [ ! -f "${IPFS_PATH}/config" ]; then
   ipfs config --json API.HTTPHeaders.Access-Control-Allow-Methods "[\"GET\",\"POST\",\"PUT\"]"
 fi
 
-exec /usr/local/bin/start_ipfs
+# Start the IPFS daemon directly
+exec ipfs daemon --migrate=true --enable-gc
