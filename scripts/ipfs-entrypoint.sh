@@ -6,6 +6,7 @@ PROFILE="${IPFS_PROFILE:-server}"
 SWARM_TCP_PORT="${IPFS_SWARM_TCP:-4001}"
 DOMAIN_HOST="${IPFS_DOMAIN:-localhost}"
 GATEWAY_PORT="${IPFS_GATEWAY_PORT:-8080}"
+API_PORT="${IPFS_API_PORT:-5001}"
 
 # Ensure repo directory exists and is writable
 mkdir -p "$IPFS_PATH" "$IPFS_PATH/export"
@@ -21,11 +22,13 @@ fi
 
 # Always enforce runtime-safe settings before starting daemon
 ipfs config Addresses.Gateway "/ip4/0.0.0.0/tcp/${GATEWAY_PORT}"
+ipfs config Addresses.API "/ip4/0.0.0.0/tcp/${API_PORT}"
 if [ -n "${PUBLIC_IP:-}" ]; then
   ipfs config Addresses.Announce "[\"/ip4/${PUBLIC_IP}/tcp/${SWARM_TCP_PORT}\",\"/ip4/${PUBLIC_IP}/udp/${SWARM_TCP_PORT}/quic-v1\"]"
 fi
-ipfs config --json API.HTTPHeaders.Access-Control-Allow-Origin "[\"https://${DOMAIN_HOST}\"]"
-ipfs config --json API.HTTPHeaders.Access-Control-Allow-Methods "[\"GET\",\"POST\",\"PUT\"]"
+ipfs config --json API.HTTPHeaders.Access-Control-Allow-Origin "[\"https://${DOMAIN_HOST}\",\"https://tokenlist.peaq.xyz\"]"
+ipfs config --json API.HTTPHeaders.Access-Control-Allow-Methods "[\"GET\",\"POST\",\"PUT\",\"DELETE\",\"OPTIONS\"]"
+ipfs config --json API.HTTPHeaders.Access-Control-Allow-Headers "[\"Authorization\",\"Content-Type\"]"
 
 # Start the IPFS daemon directly
 exec ipfs daemon --migrate=true --enable-gc
