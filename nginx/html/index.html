@@ -7,63 +7,45 @@
   <link rel="icon" type="image/png" href="https://drive.google.com/uc?export=download&id=1PK5R08EexqeZbR2HVjE4g48JYed6nQ3w" />
   <link rel="shortcut icon" type="image/png" href="https://drive.google.com/uc?export=download&id=1PK5R08EexqeZbR2HVjE4g48JYed6nQ3w" />
   <link rel="apple-touch-icon" href="https://drive.google.com/uc?export=download&id=1PK5R08EexqeZbR2HVjE4g48JYed6nQ3w" />
-  <meta name="theme-color" content="#0b0f1a" />
-  <link rel="stylesheet" href="/styles.css" />
+  <meta name="theme-color" content="#0f172a" />
+  <style>
+    body { font-family: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, Arial, sans-serif; margin: 2rem; color: #0f172a; }
+    h1 { margin: 0 0 0.5rem 0; }
+    .muted { color: #64748b; }
+    .card { border: 1px solid #e2e8f0; border-radius: 12px; padding: 1rem 1.25rem; margin: 1rem 0; }
+    a { color: #2563eb; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    code { background: #f8fafc; padding: 0.15rem 0.35rem; border-radius: 6px; }
+  </style>
 </head>
 <body>
-  <div class="container">
-    <header class="header">
-      <div class="brand"><span class="dot"></span> peaq IPFS Gateway</div>
-      <nav class="nav">
-        <a href="/version">Version</a>
-        <a href="/ipfs/bafybeigggyffcf6yfhx5irtwzx3cgnk6n3dwylkvcpckzhqqrigsxowjwe">Sample CID</a>
-        <a href="/healthz">Health</a>
-      </nav>
-    </header>
+  <h1>peaq IPFS Gateway</h1>
+  <div class="muted">Public gateway and node endpoints</div>
 
-    <section class="hero">
-      <div>
-        <h1 class="h-title">Public gateway for content on IPFS</h1>
-        <p class="h-sub">Fetch content by CID or IPNS. A secured API and WebUI are available for administrative actions.</p>
-        <div class="actions">
-          <a class="btn" href="/ipfs/bafybeigggyffcf6yfhx5irtwzx3cgnk6n3dwylkvcpckzhqqrigsxowjwe">Open Sample</a>
-          <a class="btn secondary" href="/api/v0/version">API Version</a>
-        </div>
-      </div>
-      <div class="card">
-        <h3>Quick endpoints</h3>
-        <ul class="list">
-          <li><code>/ipfs/&lt;CID&gt;</code> serve content</li>
-          <li><code>/ipns/&lt;NAME&gt;</code> IPNS name resolution</li>
-          <li><code>/api/v0/version</code> node version (auth)</li>
-          <li><code>/api/v0/add</code> upload file (auth)</li>
-        </ul>
-      </div>
-    </section>
+  <div class="card">
+    <h2>Gateway</h2>
+    <ul>
+      <li>Version: <a href="/version" rel="noopener">/version</a></li>
+      <li>Fetch by CID: <code>/ipfs/&lt;CID&gt;</code></li>
+      <li>Fetch by IPNS: <code>/ipns/&lt;NAME&gt;</code></li>
+    </ul>
+  </div>
 
-    <section class="cards">
-      <div class="card">
-        <h3>Upload file via API</h3>
-        <p>Use Basic Auth from an allowlisted IP.</p>
-        <code>curl -u user:pass -F file=@/path/file https://ipfs.peaq.xyz/api/v0/add</code>
-      </div>
-      <div class="card">
-        <h3>Show in WebUI (restricted)</h3>
-        <p>Copy CID into MFS to appear in Files.</p>
-        <code>curl -u user:pass -X POST "https://ipfs.peaq.xyz/api/v0/files/cp" \
---data-urlencode "arg=/ipfs/&lt;CID&gt;" --data-urlencode "arg=/uploads/name"</code>
-      </div>
-      <div class="card">
-        <h3>Pin content</h3>
-        <p>Ensure persistence on this node.</p>
-        <code>curl -u user:pass -X POST "https://ipfs.peaq.xyz/api/v0/pin/add?arg=&lt;CID&gt;"</code>
-      </div>
-    </section>
+  <div class="card">
+    <h2>API (restricted)</h2>
+    <ul>
+      <li>Version: <code>/api/v0/version</code></li>
+      <li>Add file: <code>/api/v0/add</code></li>
+      <li>Pin CID: <code>/api/v0/pin/add?arg=&lt;CID&gt;</code> (POST)</li>
+    </ul>
+    <div class="muted">Requires Basic Auth and allowed IP.</div>
+  </div>
 
-    <footer class="footer">
-      <span>© peaq • IPFS Gateway</span>
-      <span><a href="/version">Version</a> • <a href="/healthz">Health</a></span>
-    </footer>
+  <div class="card">
+    <h2>WebUI (restricted)</h2>
+    <ul>
+      <li><a href="/webui/" rel="noopener">/webui/</a></li>
+    </ul>
   </div>
 </body>
 </html>
