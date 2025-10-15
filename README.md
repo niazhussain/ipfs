@@ -62,15 +62,52 @@ sudo systemctl enable --now ipfs-stack
 systemctl status ipfs-stack
 ```
 
+### API authentication (Basic Auth)
+The IPFS HTTP API at `https://ipfs.peaq.xyz/api/v0/` is protected by Basic Auth and CORS-allowlisted origins.
+
+1) Create credentials
+```bash
+mkdir -p /var/network/ipfs/nginx/secrets
+# Replace password string with a strong password
+docker run --rm -it httpd:2.4-alpine htpasswd -nbB ipfsadmin 'Strong-Password-Here' \
+  | sudo tee /var/network/ipfs/nginx/secrets/ipfs-api.htpasswd >/dev/null
+```
+
+2) Restart services
+```bash
+cd /var/network/ipfs
+sudo docker compose restart nginx ipfs
+```
+
+3) Test API
+```bash
+# Version
+curl -i -u ipfsadmin:Strong-Password-Here https://ipfs.peaq.xyz/api/v0/version
+
+# Add a small file
+echo 'hello' > /tmp/hello.txt
+curl -u ipfsadmin:Strong-Password-Here -F file=@/tmp/hello.txt \
+  https://ipfs.peaq.xyz/api/v0/add
+```
+
+4) CORS allowlist
+- Allowed origins: `https://ipfs.peaq.xyz`, `https://tokenlist.peaq.xyz`.
+- For more origins, ask to update `nginx/nginx.conf` map and IPFS API headers in `scripts/ipfs-entrypoint.sh`.
+
 ### Operations
 - Update images: `docker compose pull && docker compose up -d`
-- View peers: `docker exec -it ipfs ipfs swarm peers | wc -l`
-- Pin a CID (local): `docker exec -it ipfs ipfs pin add <cid>`
+- View peers: `docker exec -it ipfs-kubo ipfs swarm peers | wc -l`
+- Pin/unpin:
+  ```bash
+  docker exec -it ipfs-kubo ipfs pin add <CID>
+  docker exec -it ipfs-kubo ipfs pin rm <CID>
+  docker exec -it ipfs-kubo ipfs repo gc
+  ```
 
 ### Security Notes
-- API is not exposed publicly. Access only inside the Docker network or via `docker exec`.
-- Nginx enforces HTTPS with HSTS and hardened ciphers. You manage cert rotation.
-- Rate limiting and secure headers are enabled in the vhost.
+- The API is authenticated and restricted by CORS. Consider IP allowlisting or mTLS for high-security uses.
+- Keep certs up to date; Nginx reads `/etc/nginx/certs/fullchain.pem` and `/etc/nginx/certs/privkey.pem`.
+- QUIC UDP buffers: increase `net.core.rmem_*` via sysctl for better performance (see entrypoint logs).
 
 ### Data Paths and Backups
 - IPFS repo on host: `${IPFS_DATA}` (default `/var/network/data`)
