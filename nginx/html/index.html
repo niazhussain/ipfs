@@ -7,15 +7,31 @@
   <link rel="icon" type="image/png" href="https://drive.google.com/uc?export=download&id=1PK5R08EexqeZbR2HVjE4g48JYed6nQ3w" />
   <link rel="shortcut icon" type="image/png" href="https://drive.google.com/uc?export=download&id=1PK5R08EexqeZbR2HVjE4g48JYed6nQ3w" />
   <link rel="apple-touch-icon" href="https://drive.google.com/uc?export=download&id=1PK5R08EexqeZbR2HVjE4g48JYed6nQ3w" />
-  <meta name="theme-color" content="#0f172a" />
+  <meta name="theme-color" content="#8b5cf6" />
   <style>
-    body { font-family: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, Arial, sans-serif; margin: 2rem; color: #0f172a; }
-    h1 { margin: 0 0 0.5rem 0; }
-    .muted { color: #64748b; }
-    .card { border: 1px solid #e2e8f0; border-radius: 12px; padding: 1rem 1.25rem; margin: 1rem 0; }
-    a { color: #2563eb; text-decoration: none; }
-    a:hover { text-decoration: underline; }
-    code { background: #f8fafc; padding: 0.15rem 0.35rem; border-radius: 6px; }
+    :root {
+      /* Light purple background similar to app.peaq.xyz section */
+      --bg-start: #f5f3ff; /* violet-50 */
+      --bg-end: #ede9fe;   /* violet-100 */
+      --text: #1f2937;     /* slate-800 */
+      --muted: #6b7280;    /* gray-500 */
+      --accent: #7c3aed;   /* violet-600 */
+      --accent-hover: #6d28d9; /* violet-700 */
+      --card: #ffffff;
+      --card-border: #e5e7eb;
+    }
+    body {
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, Arial, sans-serif;
+      margin: 2rem;
+      color: var(--text);
+      background: linear-gradient(180deg, var(--bg-start), var(--bg-end));
+    }
+    h1 { margin: 0 0 0.5rem 0; color: #1e1b4b; }
+    .muted { color: var(--muted); }
+    .card { background: var(--card); border: 1px solid var(--card-border); border-radius: 12px; padding: 1rem 1.25rem; margin: 1rem 0; box-shadow: 0 6px 16px rgba(124, 58, 237, 0.05); }
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { color: var(--accent-hover); text-decoration: underline; }
+    code { background: #faf5ff; color: #4c1d95; padding: 0.15rem 0.35rem; border-radius: 6px; border: 1px solid #e9d5ff; }
   </style>
 </head>
 <body>
