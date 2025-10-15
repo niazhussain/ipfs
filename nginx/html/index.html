@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>peaq IPFS Gateway</title>
+  <style>
+    body { font-family: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, Arial, sans-serif; margin: 2rem; color: #0f172a; }
+    h1 { margin: 0 0 0.5rem 0; }
+    .muted { color: #64748b; }
+    .card { border: 1px solid #e2e8f0; border-radius: 12px; padding: 1rem 1.25rem; margin: 1rem 0; }
+    a { color: #2563eb; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    code { background: #f8fafc; padding: 0.15rem 0.35rem; border-radius: 6px; }
+  </style>
+</head>
+<body>
+  <h1>peaq IPFS Gateway</h1>
+  <div class="muted">Public gateway and node endpoints</div>
+
+  <div class="card">
+    <h2>Gateway</h2>
+    <ul>
+      <li>Version: <a href="/version" rel="noopener">/version</a></li>
+      <li>Fetch by CID: <code>/ipfs/&lt;CID&gt;</code></li>
+      <li>Fetch by IPNS: <code>/ipns/&lt;NAME&gt;</code></li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h2>API (restricted)</h2>
+    <ul>
+      <li>Version: <code>/api/v0/version</code></li>
+      <li>Add file: <code>/api/v0/add</code></li>
+    </ul>
+    <div class="muted">Requires Basic Auth and allowed IP.</div>
+  </div>
+
+  <div class="card">
+    <h2>WebUI (restricted)</h2>
+    <ul>
+      <li><a href="/webui/" rel="noopener">/webui/</a></li>
+    </ul>
+  </div>
+</body>
+</html>

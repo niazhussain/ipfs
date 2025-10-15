@@ -12,6 +12,7 @@ services:
       - ${NGINX_CERTS_HOST_PATH}:/etc/nginx/certs:ro
       - ./nginx/secrets:/etc/nginx/secrets:ro
       - ./nginx/allowlists:/etc/nginx/allowlists:ro
+      - ./nginx/html:/usr/share/nginx/html:ro
     depends_on:
       - ipfs
     healthcheck:
